@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кафе «Стефанія» — Меню</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #9a2c14;
+      --primary-dark: #631705;
+      --accent-gold: #b45309;
+      --accent-green: #235422;
+      --text-main: #2b1704;
+      --text-muted: #5e4324;
+      --card-bg: rgba(255, 248, 235, 0.9);
+      --border-color: rgba(180, 130, 60, 0.4);
+      --shadow-sm: 0 4px 10px rgba(74, 38, 8, 0.12);
+      --shadow-lg: 0 16px 28px rgba(74, 38, 8, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: var(--text-main);
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      background-color: #d8a452;
+      background-image: url('img/body.jpg');
+      background-attachment: fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding: 5px 18px;
+      background: rgba(154, 44, 20, 0.12);
+      border: 1px solid rgba(154, 44, 20, 0.25);
+      border-radius: 50px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+      text-shadow: 1px 2px 2px rgba(255, 235, 195, 0.6);
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-style: italic;
+      color: var(--text-muted);
+      letter-spacing: 4px;
+    }
+
+    .controls-container {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px 24px;
+      border-radius: 50px;
+      border: 1.5px solid var(--border-color);
+      background: rgba(255, 250, 240, 0.95);
+      backdrop-filter: blur(10px);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(154, 44, 20, 0.2);
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255, 248, 235, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .category-btn {
+      background: transparent;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+    }
+
+    .category-btn:hover {
+      color: var(--primary);
+      background: rgba(154, 44, 20, 0.08);
+    }
+
+    .category-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(154, 44, 20, 0.35);
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+
+    .menu-section {
+      margin-bottom: 55px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 25px;
+      padding-bottom: 8px;
+      border-bottom: 2px dashed rgba(140, 95, 35, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 26px;
+    }
+
+    .menu-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(4px);
+      position: relative;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(154, 44, 20, 0.5);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      background: #e2cb9d;
+      overflow: hidden;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .card-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .pre-order-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(180, 83, 9, 0.95);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .card-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    /* Відступ зверху, якщо картка без картинки, але з бейджем замовлення */
+    .card-content.has-preorder-badge {
+      padding-top: 36px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .item-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .item-price {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .item-ingredients {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(180, 130, 60, 0.2);
+    }
+
+    .item-portion {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      background: rgba(35, 84, 34, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+      background: rgba(220, 170, 95, 0.35);
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.9rem; }
+      .controls-container { top: 10px; }
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Кафе «Стефанія»</h1>
+    <div class="subtitle">МЕНЮ</div>
+  </header>
+
+  <div class="controls-container">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Пошук страви або інгредієнта...">
+    </div>
+    <div class="categories" id="categoriesContainer">
+      <button class="category-btn active" data-filter="all">Всі страви</button>
+      <button class="category-btn" data-filter="salads">Салати</button>
+      <button class="category-btn" data-filter="cold_appetizers">Холодні закуски</button>
+      <button class="category-btn" data-filter="soups">Перші страви</button>
+      <button class="category-btn" data-filter="mains">Другі страви</button>
+      <button class="category-btn" data-filter="sides">Гарніри</button>
+      <button class="category-btn" data-filter="preorder">Попереднє замовлення</button>
+      <button class="category-btn" data-filter="desserts">Десерти</button>
+      <button class="category-btn" data-filter="drinks">Напої</button>
+    </div>
+  </div>
+
+  <main id="menuContainer">
+    <div id="noResults" class="no-results">Нічого не знайдено за вашим запитом 🍃</div>
+  </main>
+
+  <footer>
+    Кафе «Стефанія» • Готуємо з теплом та любов'ю!
+  </footer>
+
+  <script>
+    const imgUrls = {
+      salad1: "img/1.jpg",
+      salad2: "img/2.jpg",
+      salad3: "img/3.jpg",
+      salad4: "img/4.jpg",
+salad5: "img/5.jpg",
+salad6: "img/6.jpg",
+salad7: "img/7.jpg",
+salad8: "img/8.jpg",
+salad9: "img/9.jpg",
+salad10: "img/10.jpg",
+      caprese: "img/12.jpg",
+      meat_plate: "",
+      cheese_plate: "img/11.jpg",
+      deruny: "img/13.jpg",
+strava1: "img/14.jpg",
+strava2: "img/15.jpg",
+strava3: "img/16.jpg",
+strava4: "img/17.jpg",
+strava5: "img/18.jpg",
+strava6: "img/19.jpg",
+strava7: "img/20.jpg",
+strava8: "img/21.jpg",
+strava9: "img/22.jpg",
+strava10: "img/23.jpg",
+strava11: "img/24.jpg",
+strava12: "img/25.jpg",
+      drink: "img/26.webp"
+    };
+
+    // Якщо поле img: null або відсутнє — страва відображається без фото
+    const menuData = [
+      {
+        categoryKey: 'salads',
+        categoryTitle: 'Салати',
+        items: [
+          { title: 'Теплий салат з камамбером', desc: 'сир «Камамбер», прошутто, помідори чері, груша карамелізована, кунжут, соус', weight: '200 г', price: '400 грн', img: imgUrls.salad1 },
+          { title: 'Теплий салат з телятиною', desc: 'мікс салатів, запечені овочі, м\'ясо телятини, заправка', weight: '300 г', price: '400 грн', img: imgUrls.salad2 },
+          { title: 'Теплий салат «Венеція»', desc: 'мікс салатів, помідори чері, філе куряче, яйця перепелині, соус з модени', weight: '200 г', price: '300 грн', img: null },
+          { title: 'Салат «Святковий»', desc: 'філе куряче, броколі, помідори чері, фета, заправка', weight: '200 г', price: '400 грн', img: imgUrls.salad3 },
+          { title: 'Гурман', desc: 'салат айсберг, помідори чері, сир «Буко», лосось слабосолений, авокадо, заправка', weight: '250 г', price: '350 грн', img: imgUrls.salad4 },
+          { title: 'Салат з авокадо', desc: 'мікс салатів, помідори чері, авокадо, пармезан, заправка', weight: '200 г', price: '250 грн', img: imgUrls.salad5 },
+          { title: 'Салат «Цезар»', desc: 'салат айсберг, помідори чері, куряче філе, сухарики, сир, соус', weight: '250 г', price: '300 грн', img: imgUrls.salad6 },
+          { title: 'Салат «Вітамінний»', desc: 'мікс салатів, журавлина, яблуко, грецький горіх, фета, заправка', weight: '200 г', price: '250 грн', img: imgUrls.salad7 },
+          { title: 'Салат «Грецький»', desc: 'помідор, огірок, маслини, сир, перець болгарський, пряна заправка', weight: '200 г', price: '250 грн', img: imgUrls.salad8 },
+          { title: 'Салат з гарбуза', desc: 'мікс салатів, гарбуз печений, фета, грецький горіх, біла цибуля, заправка', weight: '150 г', price: '250 грн', img: null },
+          { title: 'Салат «Тунфіш»', desc: 'мікс салатів, тунець, помідор чері, яйця перепелині, заправка', weight: '200 г', price: '250 грн', img: null },
+          { title: 'Капрезе', desc: 'сир моцарелла, свіжі помідори, пряна заправка на оливковій олії', weight: '250 г', price: '220 грн', img: null },
+          { title: 'Салат «Тріо»', desc: 'броколі мариновані, помідори чері, сир фета, гарбузове насіння', weight: '200 г', price: '220 грн', img: null },
+          { title: 'Дністер', desc: 'молода капуста, горошок, ковбаса, майонез', weight: '150 г', price: '250 грн', img: null },
+          { title: 'Салат «Зелений»', desc: 'молода капуста, овочі, заправка на олії або майонезі', weight: '200 г', price: '150 грн', img: imgUrls.salad9 },
+          { title: 'Весняний', desc: 'сир, сметана, помідор, огірок, зелень', weight: '250 г', price: '300 грн', preorder: true, img: null },
+          { title: 'Буніто', desc: 'яйця, копчена курка, свіжі огірки, морква по-корейськи, майонез', weight: '150 г', price: '300 грн', img: null },
+          { title: 'Марго', desc: 'філе куряче, гриби мариновані, яйця, сир твердий, майонез', weight: '150 г', price: '300 грн', img: imgUrls.salad10 },
+          { title: 'Салат «Бурячок»', desc: 'відварний бурячок зі спеціями', weight: '150 г', price: '100 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'cold_appetizers',
+        categoryTitle: 'Холодні закуски',
+        items: [
+          { title: 'М\'ясне асорті', desc: 'шинка, шпондер, ковбаса в асортименті', weight: '300 г', price: '500 грн', img: null },
+          { title: 'Овочеве асорті', desc: 'помідор, огірок, перець болгарський, зелень', weight: '150 г', price: '300 грн', img: null },
+          { title: 'Сирна тарілка (з Дор блю)', desc: 'сир елітний, камамбер, сир горіховий, сир Дор блю', weight: '200 г', price: '400 грн', img: imgUrls.cheese_plate },
+          { title: 'Сирна тарілка (з королівським)', desc: 'сир елітний, камамбер, сир горіховий, сир королівський', weight: '200 г', price: '350 грн', img: null },
+          { title: 'Оселедець', desc: 'подається з цибулькою та зеленню', weight: '150 г', price: '200 грн', img: imgUrls.caprese },
+          { title: 'Асорті солінь', desc: 'крижавка, морква по-корейськи, огірочки, помідори', weight: '200 г', price: '250 грн', img: null },
+          { title: 'Сир фрі', desc: 'подається зі смородиновим соусом', weight: '100/50 г', price: '200 грн', img: null },
+          { title: 'Сало українське', desc: 'традиційне сало з часником', weight: '100 г', price: '100 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'soups',
+        categoryTitle: 'Перші страви',
+        items: [
+          { title: 'Суп-пюре з броколі та шампіньйонами', desc: 'ніжний крем-суп', weight: '250 г', price: '120 грн', preorder: true, img: null },
+          { title: 'Борщ підбиваний з налисниками', desc: 'традиційний галицький борщ', weight: '200/80 г', price: '100 грн', img: null },
+          { title: 'Бульйон курячий', desc: 'прозорий ароматний бульйон', weight: '200 г', price: '50 грн', img: null },
+          { title: 'Бульйон курячий з макаронами', desc: 'подається з домашньою локшиною', weight: '200/50 г', price: '70 грн', img: null },
+          { title: 'Грибна юшка', desc: 'з карпатських грибів', weight: '200 г', price: '60 грн', img: null },
+          { title: 'Грибна юшка підбивана', desc: 'зі сметаною та спеціями', weight: '200 г', price: '70 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'mains',
+        categoryTitle: 'Другі страви',
+        items: [
+          { title: 'Ніжна телятина в грибному соусі', desc: 'соковита яловичина з лісовими грибами', weight: '200 г', price: '300 грн', img: null },
+          { title: 'Відбивна зі свинини', desc: 'класична соковита відбивна', weight: '100 г', price: '160 грн', img: null },
+          { title: 'Відбивна куряча', desc: 'ніжне куряче філе в клярі', weight: '150 г', price: '120 грн', img: null },
+          { title: 'М\'ясо по-французьки', desc: 'м\'ясо свинне, помідор, шампіньйони, сир', weight: '150 г', price: '180 грн', img: null},
+          { title: 'Філе куряче по-китайськи', desc: 'філе куряче в медово-соєвому соусі', weight: '200 г', price: '170 грн', img: null },
+          { title: 'Філе куряче у вершковому соусі', desc: 'ніжне філе у соусі з вершків', weight: '200 г', price: '170 грн', img: null },
+          { title: 'Кунжутна насолода', desc: 'куряче філе в кунжутно-сирній паніровці', weight: '150 г', price: '160 грн', img: null },
+          { title: 'Деруни зі сметаною', desc: 'хрусткі картопляні деруни', weight: '150/50 г', price: '150 грн', img: imgUrls.deruny },
+          { title: 'Деруни з грибною поливкою', desc: 'деруни з ароматною підливою', weight: '150/50 г', price: '160 грн', img: null },
+          { title: 'Деруни в глечику з м\'ясом', desc: 'запечені в печі з м\'ясом', weight: '150/70 г', price: '200 грн', img: null },
+          { title: 'Пельмені домашні', desc: 'ручна ліпка, подаються з маслом', weight: '200 г', price: '130 грн', img: null },
+          { title: 'Вареники домашні з картоплею', desc: 'зверху смажена цибулька', weight: '200 г', price: '110 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'sides',
+        categoryTitle: 'Гарніри',
+        items: [
+          { title: 'Рис з овочами', desc: 'розсипчастий рис із сумішшю овочів', weight: '150/50 г', price: '40 грн', img: null },
+          { title: 'Молода картопля', desc: 'сезонна картопля з кропом', weight: '150 г', price: '120 грн', img: null },
+          { title: 'Картопля пюре', desc: 'ніжне вершкове пюре', weight: '150 г', price: '100 грн', img: null },
+          { title: 'Картопля фрі', desc: 'золотиста та хрустка', weight: '150 г', price: '100 грн', img: null },
+          { title: 'Картопля по-селянськи', desc: 'запечена дольками зі спеціями', weight: '150 г', price: '100 грн', img: null },
+          { title: 'Гречка відварна', desc: 'з вершковим маслом', weight: '150 г', price: '40 грн', img: null },
+          { title: 'Кус-кус з овочами', desc: 'легкий гарнір зі свіжими травами', weight: '150 г', price: '40 грн', img: null },
+          { title: 'Каша булгур', desc: 'поживна крупа булгур', weight: '150 г', price: '40 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'preorder',
+        categoryTitle: 'Страви попереднього замовлення',
+        items: [
+          { title: 'Жульєн з куркою та грибами', desc: '', weight: '150 г', price: '100 грн', preorder: true, img: null },
+  { title: 'Ребра свинні запечені', desc: '', weight: 'за 100 г', price: '90 грн', preorder: true, img: null },
+  { title: 'Ребра свинні тушковані з вишнею та чорносливом', desc: '', weight: 'за 100 г', price: '100 грн', preorder: true, img: imgUrls.strava1 },
+  { title: 'Качина ніжка в апельсиновому соусі', desc: '', weight: 'за 100 г', price: '120 грн', preorder: true, img: imgUrls.strava2 },
+  { title: 'Свинина запечена з яблуком та грушею', desc: '', weight: 'за 100 г', price: '100 грн', preorder: true, img: null },
+  { title: 'Крученики свинні з начинкою', desc: '', weight: 'за 100 г', price: '90 грн', preorder: true, img: null },
+  { title: 'Крученики з телятини', desc: '', weight: 'за 100 г', price: '80 грн', preorder: true, img: null },
+  { title: 'Заливне «Святкове»', desc: 'холодець / заливний язик', weight: '300 г', price: '450 грн', preorder: true, img: null },
+  { title: 'Короп запечений', desc: '', weight: 'за 100 г', price: '60 грн', preorder: true, img: null },
+  { title: 'Язик тушкований з цибулею та шампіньйонами', desc: '', weight: '200 г', price: '250 грн', preorder: true, img: null },
+{ title: 'Фаршировані шампіньйони', desc: '', weight: '100 г', price: '80,00 грн', preorder: true, img: null },
+  { title: 'Печінка тушкована', desc: '', weight: '200 г', price: '200 грн', preorder: true, img: null },
+  { title: 'Печінка смажена в клярі', desc: '', weight: '200 г', price: '200 грн', preorder: true, img: null },
+  { title: 'Хек під овочами', desc: '', weight: '100 г', price: '180 грн', preorder: true, img: null },
+  { title: 'Хек в горіхах', desc: '', weight: '100 г', price: '180 грн', preorder: true, img: null },
+  { title: 'Курячі стегна фаршировані чорносливом', desc: '', weight: 'за 100 г', price: '90 грн', preorder: true, img: null },
+  { title: 'Курячі стегна фаршировані шампіньйонами', desc: '', weight: 'за 100 г', price: '90 грн', preorder: true, img: null },
+  { title: 'Гарячі курячі ковбаски', desc: 'смажені ковбаски власного виробництва із курки та сиру', weight: 'за 100 г', price: '60 грн', preorder: true, img: null },
+  { title: 'Гарячі баварські ковбаски', desc: 'смажені ковбаски власного виробництва із свинини та телятини', weight: 'за 100 г', price: '60 грн', preorder: true, img: null },
+  { title: 'Нагетси курячі', desc: '', weight: 'за 100 г', price: '100 грн', preorder: true, img: null },
+  { title: 'Тартар з лососем', desc: '', weight: '250 г', price: '250 грн', preorder: true, img: null },
+  { title: 'Запечені овочі', desc: '', weight: '200 г', price: '250 грн', preorder: true, img: null },
+  { title: 'Олів\'є', desc: '', weight: '200 г', price: '250 грн', preorder: true, img: null },
+  { title: 'Салат з крабів', desc: '', weight: '200 г', price: '250 грн', preorder: true, img: null },
+  { title: 'Салат з серця', desc: '', weight: '200 г', price: '220 грн', preorder: true, img: null },
+  { title: 'Салат «Елітний»', desc: 'мікс салатів, грудинка смажена, філе куряче смажене, авокадо, сир Блю, помідор, заправка', weight: '300 г', price: '350 грн', preorder: true, img: null },
+  { title: 'Салат «Фараон»', desc: 'філе телятини, огірок, цибуля смажена, цибуля зелена, кунжут, заправка', weight: '300 г', price: '350 грн', preorder: true, img: null },
+  { title: 'Салат «Святковий»', desc: 'філе куряче, салат, броколі, помідори чері, фета, насіння соняшника, заправка', weight: '300 г', price: '350 грн', preorder: true, img: null },
+  { title: 'Налисники з лососем та крем сиром «Буко»', desc: '', weight: '100 г', price: '250 грн', preorder: true, img: imgUrls.strava3 },
+  { title: 'Баклажанні рулетики з домашнім сиром, зеленню та грецьким горіхом', desc: '', weight: '100 г', price: '250 грн', preorder: true, img: imgUrls.strava4 },
+  { title: 'Салат «Феєрія»', desc: 'рукола, буряк, фета, прошуто, авокадо, заправка', weight: '250 г', price: '300 грн', preorder: true, img: imgUrls.strava5  },
+
+  { title: 'Салат з креветки', desc: '', weight: '250 г', price: '350 грн', preorder: true, img: imgUrls.strava6 },
+  { title: 'Брускети з креветки', desc: '', weight: '200 г', price: '250 грн', preorder: true, img: imgUrls.strava7 },
+  { title: 'Броколі під соусом', desc: '', weight: '200 г', price: '270 грн', preorder: true, img: imgUrls.strava8 },
+  { title: 'Грушка з дорблю', desc: '', weight: '100 г', price: '120 грн', preorder: true, img: imgUrls.strava9 },
+  { title: 'М\'ясна таця', desc: '', weight: 'за порцію', price: '1500 грн', preorder: true, img: imgUrls.strava10 },
+
+  { title: 'Гострі баклажани', desc: 'баклажани в гострому соусі', weight: '100 г', price: '250 грн', preorder: true, img: null },
+  { title: 'Печінкові рулетики', desc: '', weight: '150 г', price: '250 грн', preorder: true, img: imgUrls.strava11 },
+  { title: 'Кабачкові рулетики', desc: 'кабачок, помідор, часникова заправка', weight: '100 г', price: '200 грн', preorder: true, img: imgUrls.strava12 }
+
+        ]
+      },
+      {
+        categoryKey: 'desserts',
+        categoryTitle: 'Десерти',
+        items: [
+          { title: 'Сирник по-самбірськи', desc: 'попереднє замовлення — фірмовий рецепт', weight: '120 г', price: '100 грн', preorder: true, img: null },
+          { title: 'Морозиво з фруктами', desc: 'пломбір зі свіжими фруктами', weight: '100/30 г', price: '100 грн', img: null},
+          { title: 'Морозиво з шоколадом та горіхами', desc: 'з тертим шоколадом і грецьким горіхом', weight: '100/30 г', price: '100 грн', img: null },
+          { title: 'Морозиво з поливками', desc: 'десертне морозиво з топінгом', weight: '100/20 г', price: '100 грн', img: null },
+          { title: 'Яблуко в гренадині', desc: 'запечене десертне яблуко', weight: '100/20 г', price: '100 грн', img: null }
+        ]
+      },
+      {
+        categoryKey: 'drinks',
+        categoryTitle: 'Напої та Кава',
+        items: [
+          { title: 'Узвар / компот', desc: 'домашній зварений напій', weight: '1 л / 0.2 л', price: '100 / 30 грн', img: null },
+          { title: 'Напій «Пепсі»', desc: 'освіжаючий напій', weight: '0.5 л / 1 л', price: '40 / 70 грн', img: null },
+          { title: 'Сік «Sandora»', desc: 'в асортименті смаків', weight: '1 л / 0.2 л', price: '120 / 30 грн', img: null },
+          { title: 'Вода мінеральна «Моршинська»', desc: 'негазована / слабогазована', weight: '1.5 л', price: '45 грн', img: null },
+          { title: 'Вода «Поляна Квасова» (скло)', desc: 'лікувально-столова вода', weight: '0.5 л', price: '80 грн', img: null },
+          { title: 'Чай заварний в чайнику (Palmira)', desc: 'чорний, зелений, трав\'яний', weight: 'чайник', price: '50 / 100 грн', img: null },
+          { title: 'Чай Palmira в пакетиках', desc: 'порційний якісний чай', weight: 'чашка', price: '30 грн', img: null },
+          { title: 'Еспресо', desc: 'міцна ароматна кава', weight: '30 мл', price: '60 грн', img: null },
+          { title: 'Американо', desc: 'класична кава з водою', weight: '90 мл', price: '60 грн', img: null },
+          { title: 'Капучино', desc: 'з ніжною молочною пінкою', weight: '150 мл', price: '70 грн', img: null },
+          { title: 'Кава Лате', desc: 'багато молока та м\'який смак', weight: '180 мл', price: '70 грн', img: null },
+          { title: 'Молоко', desc: 'порція молока до кави', weight: '20 мл', price: '10 грн', img: null }
+        ]
+      }
+    ];
+
+    const container = document.getElementById('menuContainer');
+    const searchInput = document.getElementById('searchInput');
+    const catButtons = document.querySelectorAll('.category-btn');
+    const noResults = document.getElementById('noResults');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function renderMenu() {
+      const existingSections = container.querySelectorAll('.menu-section');
+      existingSections.forEach(el => el.remove());
+
+      let totalVisible = 0;
+
+      menuData.forEach(cat => {
+        if (currentFilter !== 'all' && cat.categoryKey !== currentFilter) return;
+
+        const filteredItems = cat.items.filter(item => {
+          const matchText = (item.title + ' ' + (item.desc || '')).toLowerCase();
+          return matchText.includes(searchQuery.toLowerCase());
+        });
+
+        if (filteredItems.length === 0) return;
+
+        totalVisible += filteredItems.length;
+
+        const section = document.createElement('div');
+        section.className = 'menu-section';
+
+        section.innerHTML = `
+          <h2 class="section-title">${cat.categoryTitle}</h2>
+          <div class="menu-grid">
+            ${filteredItems.map(item => `
+              <div class="menu-card">
+                ${item.preorder ? '<span class="pre-order-tag">Попереднє замовлення</span>' : ''}
+                ${item.img ? `
+                  <div class="card-img-wrap">
+                    <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'">
+                  </div>
+                ` : ''}
+                <div class="card-content ${!item.img && item.preorder ? 'has-preorder-badge' : ''}">
+                  <div>
+                    <div class="card-header">
+                      <h3 class="item-title">${item.title}</h3>
+                      <div class="item-price">${item.price}</div>
+                    </div>
+                    ${item.desc ? `<p class="item-ingredients">${item.desc}</p>` : ''}
+                  </div>
+                  <div class="card-footer">
+                    ${item.weight ? `<span class="item-portion">${item.weight}</span>` : '<span></span>'}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(section);
+      });
+
+      noResults.style.display = totalVisible === 0 ? 'block' : 'none';
+    }
+
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderMenu();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderMenu();
+    });
+
+    renderMenu();
+  </script>
+</body>
+</html>
